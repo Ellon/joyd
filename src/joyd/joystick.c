@@ -178,7 +178,7 @@ void ExecuteCommands(long int axis_max,long int button_max)
 void StoreJoystickEvent(struct js_event js,long int *const axis_normal,long int *const button_normal,long int *const button_shift)
 /* Store the joystick event */
 {
-	switch(js.type & ~JS_EVENT_INIT) {
+	switch(js.type) {
 	case JS_EVENT_BUTTON:
 		/* shift or normal button? */
 		if ((1 << js.number) & config.shiftkeys) {
@@ -208,6 +208,8 @@ void StoreJoystickEvent(struct js_event js,long int *const axis_normal,long int 
 			/* high value, high bit */
 			*axis_normal=*axis_normal | ((unsigned long) (1 << ((js.number*2+1))));
 		}
+		break;
+	case JS_EVENT_INIT:
 		break;
 	}
 }
